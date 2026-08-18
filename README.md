@@ -14,8 +14,7 @@ npm audit --omit=dev
 npm start
 ```
 
-La documentación operativa, la migración de hosting, la promoción de contingencia y la restauración desde la bóveda se encuentran en **[`MANUAL_OPERACIONES_FORTRESS.md`](MANUAL_OPERACIONES_FORTRESS.md)**.
-
+La documentación operativa, la migración de hosting, la promoción de contingencia y la restauración desde la bóveda se encuentran en **[`MANUAL_OPERACIONES_FORTRESS.md`](https://github.com/Men-Bat/Fortress-Krasty/blob/Pruebas/Manual%20de%20operaciones%20%E2%80%94%20Krasty%20Kebab_%20Fortress%20Edition.md).**.
 ## Archivos clave
 
 | Archivo o carpeta | Finalidad |
