@@ -35,15 +35,14 @@ La aplicación permite una sola fuente de escritura. No ejecute dos nodos con `N
 ________________________________________________________________________________________
 
 
-# Manual Básico Versión Local Privada.
+# Manual Versión Local Privada.
 
 
 ____________________________________________
 
 - Utilice la versión básica Edition para uso local o sin conexión, más adelante podría actualizarla y guardar sus datos de respaldo en su usuario privado si lo desea.
 
-  [Manual Inicio Rápido]
-(https://github.com/Men-Bat/Fortress-Krasty/blob/Pruebas/%F0%9F%8F%B0%20Krasty%20Kebab_%20Fortress%20Edition%20-%20Manual%20de%20Triple%20Capa.md)
+  [Manual Inicio Rápido](https://github.com/Men-Bat/Fortress-Krasty/blob/Pruebas/%F0%9F%8F%B0%20Krasty%20Kebab_%20Fortress%20Edition%20-%20Manual%20de%20Triple%20Capa.md)
 
 
 ____________________________________________
