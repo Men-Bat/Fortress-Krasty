@@ -30,3 +30,20 @@ La documentación operativa, la migración de hosting, la promoción de continge
 ## Advertencias fundamentales
 
 La aplicación permite una sola fuente de escritura. No ejecute dos nodos con `NODE_ROLE=primary`. No exponga `data/`, `db/`, `archives/` o `.env` a la web. No coloque claves de Chutes.ai ni de la bóveda en el navegador.
+
+
+________________________________________________________________________________________
+
+
+# Manual Básico Versión Local Privada.
+
+
+____________________________________________
+
+- Utilice la versión básica Edition para uso local o sin conexión, más adelante podría actualizarla y guardar sus datos de respaldo en su usuario privado si lo desea.
+
+  [Manual Inicio Rápido]
+(https://github.com/Men-Bat/Fortress-Krasty/blob/Pruebas/%F0%9F%8F%B0%20Krasty%20Kebab_%20Fortress%20Edition%20-%20Manual%20de%20Triple%20Capa.md)
+
+
+____________________________________________
