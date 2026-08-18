@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+db/*.db
+db/*.db-*
+data/
+archives/
+public/gateway-config.js
+npm-debug.log*

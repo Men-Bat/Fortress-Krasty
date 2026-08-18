@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Krasty Kebab Fortress — Acceso seguro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6 font-sans">
+  <main class="w-full max-w-2xl space-y-6">
+    <header class="text-center space-y-3">
+      <div class="text-6xl">🏰🥙</div>
+      <h1 class="text-3xl font-black tracking-tight">Krasty Kebab Fortress</h1>
+      <p class="text-slate-300">Acceso resiliente: nodo local, réplica de contingencia y bóveda cifrada.</p>
+    </header>
+
+    <section class="rounded-3xl bg-slate-900 border border-slate-700 p-5 space-y-4" aria-live="polite">
+      <div class="flex justify-between items-center gap-4"><span class="font-bold">Servidor local</span><span id="local-status" class="text-sm text-slate-400">Comprobando…</span></div>
+      <div class="flex justify-between items-center gap-4"><span class="font-bold">Servidor de contingencia</span><span id="cloud-status" class="text-sm text-slate-400">Comprobando…</span></div>
+      <div class="flex justify-between items-center gap-4"><span class="font-bold">Bóveda cifrada</span><span id="vault-status" class="text-sm text-slate-400">Disponible para recuperación manual</span></div>
+    </section>
+
+    <section id="action" class="rounded-3xl bg-amber-500 text-slate-950 p-6 text-center shadow-2xl"></section>
+
+    <section class="rounded-2xl bg-slate-900/60 border border-slate-800 p-4 text-xs leading-relaxed text-slate-300">
+      <strong>Nota de seguridad:</strong> este acceso selecciona un nodo disponible, pero <strong>no promueve automáticamente</strong> el nodo de contingencia a primario. La promoción se debe realizar siguiendo el manual para evitar que dos nodos acepten cambios simultáneamente.
+    </section>
+  </main>
+
+  <script>
+    // Copie gateway-config.js desde gateway-config.example.js y complete únicamente URLs HTTPS.
+    // Para que la comprobación desde este gateway funcione, incluya el origen de esta página en ALLOWED_ORIGINS en cada nodo.
+    const CONFIG = window.KRASTY_GATEWAY_CONFIG || {
+      localUrl: '',
+      cloudUrl: '',
+      vaultUrl: ''
+    };
+
+    const timeout = (promise, ms) => Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Tiempo agotado')), ms))
+    ]);
+
+    async function health(url) {
+      if (!url || !url.startsWith('https://')) return { online: false, reason: 'No configurado' };
+      const start = performance.now();
+      try {
+        const response = await timeout(fetch(`${url.replace(/\/$/, '')}/api/health`, { credentials: 'omit' }), 4000);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const body = await response.json();
+        if (body.status !== 'ok') throw new Error('Respuesta no saludable');
+        return { online: true, latency: Math.round(performance.now() - start), body, url };
+      } catch (error) {
+        return { online: false, reason: error.message, url };
+      }
+    }
+
+    function showStatus(elementId, result) {
+      const element = document.getElementById(elementId);
+      if (!result.online) {
+        element.textContent = result.reason || 'No disponible';
+        element.className = 'text-sm text-red-300';
+        return;
+      }
+      const writable = result.body.writable ? 'escritura habilitada' : 'solo contingencia';
+      element.textContent = `${result.latency} ms · ${writable}`;
+      element.className = 'text-sm text-emerald-300';
+    }
+
+    function setAction(html) { document.getElementById('action').innerHTML = html; }
+
+    async function initialize() {
+      const [local, cloud] = await Promise.all([health(CONFIG.localUrl), health(CONFIG.cloudUrl)]);
+      showStatus('local-status', local);
+      showStatus('cloud-status', cloud);
+
+      // Se prioriza el local siempre que sea el primario saludable; no se escoge solamente por menor latencia.
+      const preferred = local.online && local.body.role === 'primary' ? local : (cloud.online && cloud.body.role === 'primary' ? cloud : null);
+      if (preferred) {
+        setAction(`<p class="font-bold mb-4">Nodo primario disponible.</p><a class="inline-block rounded-xl bg-slate-950 text-white px-6 py-3 font-bold" href="${preferred.url}">Entrar al servidor principal</a>`);
+        return;
+      }
+      if (cloud.online) {
+        setAction(`<p class="font-bold mb-2">La réplica de contingencia está disponible.</p><p class="text-sm mb-4">Debe ser promovida manualmente antes de aceptar nuevas sesiones de escritura.</p><a class="inline-block rounded-xl bg-slate-950 text-white px-6 py-3 font-bold" href="${cloud.url}">Abrir réplica de contingencia</a>`);
+        return;
+      }
+      if (CONFIG.vaultUrl && CONFIG.vaultUrl.startsWith('https://')) {
+        setAction(`<p class="font-bold mb-4">Los nodos de aplicación no responden.</p><a class="inline-block rounded-xl bg-slate-950 text-white px-6 py-3 font-bold" href="${CONFIG.vaultUrl}">Abrir bóveda de recuperación</a>`);
+        return;
+      }
+      setAction('<p class="font-bold">No hay un nodo ni una bóveda configurados. Consulte el manual de operación.</p>');
+    }
+
+    initialize();
+  </script>
+</body>
+</html>
