@@ -2,7 +2,7 @@
 
 Este paquete permite desplegar Krasty Kebab sin Node.js, usando Apache y PHP de XAMPP con SQLite. Sus funciones principales son el registro de usuarios, rutas privadas `web.com/usuario/Krasty/`, archivos aislados por cuenta, cuota predeterminada de 50 GiB, chat local opcional mediante Ollama y tres capas de respaldo.
 
-> **Empiece por [`docs/MANUAL_COMPLETO.md`](docs/MANUAL_COMPLETO.md).** No copie este paquete directamente a una web pública sin completar la configuración HTTPS y las comprobaciones de seguridad explicadas allí.
+> **Empiece por [`docs/MANUAL_COMPLETO.md`](https://github.com/Men-Bat/Fortress-Krasty/blob/local/Manual%20%20Krasty%20Kebab%20para%20XAMPP%20en%20Windows.md).** No copie este paquete directamente a una web pública sin completar la configuración HTTPS y las comprobaciones de seguridad explicadas allí.
 
 | Primer paso | Archivo o carpeta |
 |---|---|
