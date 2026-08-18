@@ -35,12 +35,12 @@ La aplicación permite una sola fuente de escritura. No ejecute dos nodos con `N
 ________________________________________________________________________________________
 
 
-# Manual Versión Local Privada.
+# Versión Local Privada.
 
 
 ____________________________________________
 
-- Utilice la versión básica Edition para uso local o sin conexión, más adelante podría actualizarla y guardar sus datos de respaldo en su usuario privado si lo desea.
+- Utilice la versión básica [Edition](https://github.com/Men-Bat/Fortress-Krasty/blob/main/Krasty_Kebab_Fortress_Edition.zip) para uso local o sin conexión, más adelante podría actualizarla y guardar sus datos de respaldo seleccionados en un usuario privado de Fondo de Bikini, si lo desea.
 
   [Manual Inicio Rápido](https://github.com/Men-Bat/Fortress-Krasty/blob/Pruebas/%F0%9F%8F%B0%20Krasty%20Kebab_%20Fortress%20Edition%20-%20Manual%20de%20Triple%20Capa.md)
 
