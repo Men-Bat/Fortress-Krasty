@@ -1,33 +1,17 @@
-# 🏰🥙 Krasty Kebab: Fortress Edition
+# Krasty Kebab para XAMPP
 
-**Fortress Edition** combina un servidor local primario, una réplica cloud de contingencia y una bóveda cifrada de recuperación. Está orientado a despliegues privados y administrados, no a una publicación abierta inmediata.
+Este paquete permite desplegar Krasty Kebab sin Node.js, usando Apache y PHP de XAMPP con SQLite. Sus funciones principales son el registro de usuarios, rutas privadas `web.com/usuario/Krasty/`, archivos aislados por cuenta, cuota predeterminada de 50 GiB, chat local opcional mediante Ollama y tres capas de respaldo.
 
-> **Lea `AUDITORIA_TECNICA.md` antes de desplegar.** El paquete incorpora mejoras críticas, pero aún requiere cuotas reales, roles administrativos y MFA antes de ofrecer cuentas públicas.
+> **Empiece por [`docs/MANUAL_COMPLETO.md`](docs/MANUAL_COMPLETO.md).** No copie este paquete directamente a una web pública sin completar la configuración HTTPS y las comprobaciones de seguridad explicadas allí.
 
-## Inicio rápido seguro
-
-```bash
-cp .env.example .env
-# Complete todos los secretos y URLs reales en .env; nunca lo suba a Git.
-npm ci --omit=dev
-npm audit --omit=dev
-npm start
-```
-
-La documentación operativa, la migración de hosting, la promoción de contingencia y la restauración desde la bóveda se encuentran en **[`MANUAL_OPERACIONES_FORTRESS.md`](MANUAL_OPERACIONES_FORTRESS.md)**.
-
-## Archivos clave
-
-| Archivo o carpeta | Finalidad |
+| Primer paso | Archivo o carpeta |
 |---|---|
-| `index.js` | Aplicación HTTP, autenticación, chat y endpoint de sincronización |
-| `public/gateway.html` | Punto de entrada que prioriza el primario disponible |
-| `public/gateway-config.example.js` | Plantilla pública de URLs, sin secretos |
-| `scripts/sync-engine.js` | Sincronización de base de datos al cloud y archivo cifrado a la bóveda |
-| `scripts/create-snapshot.js` | Genera un backup cifrado de SQLite y `data/` |
-| `scripts/decrypt-snapshot.js` | Descifra una copia de la bóveda para recuperación |
-| `.env.example` | Inventario de configuración; debe copiarse como `.env` |
+| Configurar secretos y rutas | `config/config.example.php` → copia privada `config/config.php` |
+| Publicar con Apache | `web/` como `DocumentRoot` del virtual host |
+| Lógica PHP | `app/bootstrap.php` y `web/index.php` |
+| Copia al segundo PC | `scripts/backup_to_second_pc.bat` |
+| Crear bóveda cifrada | `scripts/create_vault_backup.php` |
+| Recuperar bóveda | `scripts/decrypt_vault_backup.php` |
+| Instrucciones completas | `docs/MANUAL_COMPLETO.md` |
 
-## Advertencias fundamentales
-
-La aplicación permite una sola fuente de escritura. No ejecute dos nodos con `NODE_ROLE=primary`. No exponga `data/`, `db/`, `archives/` o `.env` a la web. No coloque claves de Chutes.ai ni de la bóveda en el navegador.
+No incluya `config/config.php`, datos de usuarios, registros ni bóvedas en copias de código o repositorios.
